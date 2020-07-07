@@ -6,7 +6,7 @@ function getResult(a,b,c){
 
     if (d === 0) {
         x.push(-b / 2 * a);
-    } else {
+    } else if (d > 0) {
         x.push((-b  + Math.sqrt(d)) / (2 * a));
         x.push((-b  - Math.sqrt(d)) / (2 * a));
     }
