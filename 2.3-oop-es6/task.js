@@ -5,7 +5,7 @@ class PrintEditionItem {
     name;
     releaseDate;
     pagesCount;
-    #state = 100;
+    state = 100;
     type = null;
 
     constructor(name, releaseDate, pagesCount) {
@@ -15,20 +15,20 @@ class PrintEditionItem {
     }
 
     fix() {
-        this.setState = (this.#state * 1.5);
+        this.setState = (this.state * 1.5);
     }
 
-    set setState(itemState){
-        this.#state = itemState;
+    set state(itemState){
+        this.state = itemState;
         if (itemState <= 0) {
-            this.#state = 0;
+            this.state = 0;
         } else if (itemState > 100) {
-            this.#state = 100;
+            this.state = 100;
         }
     }
 
-    get getState() {
-        return this.#state;
+    get state() {
+        return this.state;
     }
 
 }
@@ -65,28 +65,28 @@ const picknick = new FantasticBook("Аркадий и Борис Стругац�
 
 //Task 2
 class Library {
-    #name;
+    name;
     books = [];
 
     constructor(name) {
-        this.#name = name;
+        this.name = name;
     }
 
-    addBooks(book) {
+    addBook(book) {
         if(book.getState >= 30) {
             this.books.push(book);
         }
     }
 
-    findBokBy(type, value) {
+    findBookBy(type, value) {
         this._type = type;
         this._value = value;
         function detectType() { //checks whether the parameter we are looking for exists
 
-            for (let j = 0; j < library.books.length; j++) {
+            for (let j = 0; j < this.books.length; j++) {
 
-                for (let i = 0; i < Object.keys(library.books[j]).length; i++) {
-                    if (type === (Object.keys(library.books[j])[i])) {
+                for (let i = 0; i < Object.keys(this.books[j]).length; i++) {
+                    if (type === (Object.keys(this.books[j])[i])) {
                         return type;
                     }
                 }
@@ -98,11 +98,11 @@ class Library {
 
         function returnValue(a) {
             a = detectType();
-            for (let j = 0; j < library.books.length; j++) {
+            for (let j = 0; j < this.books.length; j++) {
 
-                if (value === library.books[j][a]){
-                    console.log(library.books[j]);
-                    return library.books[j];
+                if (value === this.books[j][a]){
+                    console.log(this.books[j]);
+                    return this.books[j];
                 }
             }
             console.log('null');
@@ -127,8 +127,9 @@ class Library {
 
 }
 const library = new Library('newLibrary');
-library.addBooks(sherlock);
-library.addBooks(picknick);
-library.addBooks(new Magazine('Мурзилка', 1919, 60));
+library.addBook(sherlock);
+library.addBook(picknick);
+library.addBook(new Magazine('Мурзилка', 1919, 60));
 
-library.findBokBy('releaseDate', 1919);
+// library.findBookBy('releaseDate', 1919);
+
