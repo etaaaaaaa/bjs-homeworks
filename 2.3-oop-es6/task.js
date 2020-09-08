@@ -77,38 +77,54 @@ class Library {
             this.books.push(book);
         }
     }
-
+///!!!!!!!!!!!!!!!!!!!!!!!!!!
     findBookBy(type, value) {
         this._type = type;
         this._value = value;
-        function detectType() { //checks whether the parameter we are looking for exists
 
-            for (let j = 0; j < this.books.length; j++) {
+        for (let j = 0; j < this.books.length; j++) { //эта чать почему-то не выполняется совсем.
+                                                      //если раскомментировать мои две предыдущие функции
+                                                      // там точно такой же кусочек не будет работаь по причине ошибки
+                                                      // 'cannot read property 'books' of undefined' в строке 102, думаю здесь та же самая проблема
+                                                      // Не понимаю почему :(
 
-                for (let i = 0; i < Object.keys(this.books[j]).length; i++) {
-                    if (type === (Object.keys(this.books[j])[i])) {
-                        return type;
-                    }
-                }
-
+            if (this.books[type] === value) {
+                console.log(this.books[j]);
+                return this.books[j];
+            }
+            //else {
                 console.log('null');
                 return null;
-            }
         }
 
-        function returnValue(a) {
-            a = detectType();
-            for (let j = 0; j < this.books.length; j++) {
-
-                if (value === this.books[j][a]){
-                    console.log(this.books[j]);
-                    return this.books[j];
-                }
-            }
-            console.log('null');
-            return null;
-        }
-        returnValue();
+        // function detectType() { //checks whether the parameter we are looking for exists
+        //
+        //     for (let j = 0; j < this.books.length; j++) {
+        //
+        //         for (let i = 0; i < Object.keys(this.books[j]).length; i++) {
+        //             if (type === (Object.keys(this.books[j])[i])) {
+        //                 return type;
+        //             }
+        //         }
+        //
+        //         console.log('null');
+        //         return null;
+        //     }
+        // }
+        //
+        // function returnValue(a) {
+        //     a = detectType();
+        //     for (let j = 0; j < this.books.length; j++) {
+        //
+        //         if (value === this.books[j][a]){
+        //             console.log(this.books[j]);
+        //             return this.books[j];
+        //         }
+        //     }
+        //     console.log('null');
+        //     return null;
+        // }
+        // returnValue();
     }
 
     giveBookByName (bookName) {
@@ -130,6 +146,5 @@ const library = new Library('newLibrary');
 library.addBook(sherlock);
 library.addBook(picknick);
 library.addBook(new Magazine('Мурзилка', 1919, 60));
-
-// library.findBookBy('releaseDate', 1919);
-
+debugger;
+library.findBookBy('releaseDate', 2019);
