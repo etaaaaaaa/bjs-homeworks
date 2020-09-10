@@ -5,7 +5,7 @@ class PrintEditionItem {
     name;
     releaseDate;
     pagesCount;
-    state = 100;
+    #state = 100;
     type = null;
 
     constructor(name, releaseDate, pagesCount) {
@@ -15,20 +15,20 @@ class PrintEditionItem {
     }
 
     fix() {
-        this.setState = (this.state * 1.5);
+        this.state = (this.state * 1.5);
     }
 
     set state(itemState){
-        this.state = itemState;
+        this.#state = itemState;
         if (itemState <= 0) {
-            this.state = 0;
+            this.#state = 0;
         } else if (itemState > 100) {
-            this.state = 100;
+            this.#state = 100;
         }
     }
 
     get state() {
-        return this.state;
+        return this.#state;
     }
 
 }
@@ -73,58 +73,26 @@ class Library {
     }
 
     addBook(book) {
-        if(book.getState >= 30) {
+        if(book.state >= 30) {
             this.books.push(book);
         }
     }
-///!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     findBookBy(type, value) {
         this._type = type;
         this._value = value;
 
-        for (let j = 0; j < this.books.length; j++) { //эта чать почему-то не выполняется совсем.
-                                                      //если раскомментировать мои две предыдущие функции
-                                                      // там точно такой же кусочек не будет работаь по причине ошибки
-                                                      // 'cannot read property 'books' of undefined' в строке 102, думаю здесь та же самая проблема
-                                                      // Не понимаю почему :(
+        for (let j = 0; j < this.books.length; j++) {
 
-            if (this.books[type] === value) {
+         console.log(this.books[j][type]);
+
+            if (this.books[j][type] === value) {
                 console.log(this.books[j]);
                 return this.books[j];
             }
-            //else {
+        }
                 console.log('null');
                 return null;
-        }
-
-        // function detectType() { //checks whether the parameter we are looking for exists
-        //
-        //     for (let j = 0; j < this.books.length; j++) {
-        //
-        //         for (let i = 0; i < Object.keys(this.books[j]).length; i++) {
-        //             if (type === (Object.keys(this.books[j])[i])) {
-        //                 return type;
-        //             }
-        //         }
-        //
-        //         console.log('null');
-        //         return null;
-        //     }
-        // }
-        //
-        // function returnValue(a) {
-        //     a = detectType();
-        //     for (let j = 0; j < this.books.length; j++) {
-        //
-        //         if (value === this.books[j][a]){
-        //             console.log(this.books[j]);
-        //             return this.books[j];
-        //         }
-        //     }
-        //     console.log('null');
-        //     return null;
-        // }
-        // returnValue();
     }
 
     giveBookByName (bookName) {
