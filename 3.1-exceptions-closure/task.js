@@ -2,21 +2,21 @@
 
 //TASK 1
 function parseCount (value) {
+    let parsedValue = Number.parseInt(value);
 
-    if (isNaN(Number.parseInt(value))) {
-        const invalid = new Error('Невалидное значение!');
-        throw invalid;
+    if (isNaN(parsedValue)) {
+        throw new Error('Невалидное значение!');
     }
 
-    console.log(Number.parseInt(value));
-    return Number.parseInt(value);
+    return parsedValue;
 }
 
 function validateCount (value) {
     try {
         return parseCount(value);
     } catch(e) {
-        console.error(e);
+        // console.error(e);
+        return e;
     }
 }
 
@@ -43,7 +43,7 @@ class Triangle {
     }
 
     getArea() {
-        let p = (this.firstSide + this.secondSide + this.thirdSide) / 2;
+        let p = this.getPerimeter() / 2;
         return (Math.sqrt(p * (p - this.firstSide) * (p - this.secondSide) * (p - this.thirdSide))).toFixed(3);
     }
 
@@ -53,11 +53,12 @@ class Triangle {
 // console.log(tri.getArea());
 // console.log(tri.getPerimeter());
 function getTriangle(firstSide, secondSide, thirdSide) {
-    let tri = new Triangle(firstSide, secondSide, thirdSide);
     try {
-        return tri;
+        // let tri = new Triangle(firstSide, secondSide, thirdSide);
+        return new Triangle(firstSide, secondSide, thirdSide);
     } catch (e) {
-        console.error(e);
+        // console.error(e);
+        return e;
     }
 }
 
