@@ -39,7 +39,11 @@ class Triangle {
     }
 
     getPerimeter() {
-        return this.firstSide + this.secondSide + this.thirdSide;
+        // try {
+            return this.firstSide + this.secondSide + this.thirdSide;
+        // } catch {
+        //     return 'Ошибка! Треугольник не существует';
+        // }
     }
 
     getArea() {
@@ -49,17 +53,37 @@ class Triangle {
 
 }
 
+class FakeTriangle {
 
-// console.log(tri.getArea());
-// console.log(tri.getPerimeter());
+    constructor(firstSide, secondSide, thirdSide) {
+        this.firstSide = firstSide;
+        this.secondSide = secondSide;
+        this.thirdSide = thirdSide;
+    }
+
+    getPerimeter() {
+        // console.log('Ошибка! Треугольник не существует');
+        return 'Ошибка! Треугольник не существует';
+    }
+
+    getArea() {
+        // console.log('Ошибка! Треугольник не существует');
+        return 'Ошибка! Треугольник не существует';
+    }
+
+}
+
 function getTriangle(firstSide, secondSide, thirdSide) {
     try {
-        // let tri = new Triangle(firstSide, secondSide, thirdSide);
         return new Triangle(firstSide, secondSide, thirdSide);
-    } catch (e) {
-        // console.error(e);
-        return e;
+    } catch {
+        const triangle = new FakeTriangle(firstSide, secondSide, thirdSide);
+        return triangle;
     }
 }
 
-getTriangle(1,2,3);
+// debugger;
+// console.log(getTriangle(1,2,3));
+// getTriangle(1,2,3).getPerimeter();
+// const tt = new FakeTriangle(1,2,3);
+// tt.getArea();
