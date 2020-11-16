@@ -59,7 +59,7 @@ class alarmClock {
                 eval(this.alarmCollection[alarm].callback);
                 console.log('this works');
             } else {
-                console.log('this doesnt work blyaddd');
+                console.log('this doesnt work');
             }
         }
         // }
