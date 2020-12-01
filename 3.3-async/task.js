@@ -1,10 +1,10 @@
 'use strict';
 
-class alarmClock {
+class AlarmClock {
 
-    constructor (id) {
+    constructor () {
         this.alarmCollection = [];
-        this.timerId = id;
+        this.timerId = null;
     }
 
     addClock(time, callback, id) {
@@ -21,21 +21,21 @@ class alarmClock {
 
         this.alarmCollection.push ({
             time: time,
-            callback: callback.toString(), //здесь не уверена, нужен ли toString(),
-                                           // пытаюсь вызвать функцю отсюда,
-                                           // не получиается
+            callback: callback,
             id: id
         });
     }
 
     removeClock(id) {
-
-        const removedClock = this.alarmCollection.filter(objId => objId.id != id);
-        return removedClock;
-
-        //А что если мы захотим сделать что-нибудь еще с массивом alarmCollection?
-        //Он же ведь останется неизменным, потому что filter() создает новый массив.
-        //А значит и удаленный будильник на самом деле не удалился?
+        let beforeDelete = this.alarmCollection.length;
+        this.alarmCollection = this.alarmCollection.filter(objId => objId.id != id);
+        let afterDelete = this.alarmCollection.length;
+        if (beforeDelete === afterDelete) {
+            console.log('something is wrong');
+            return false;
+        }
+        console.log('element deleted');
+        return true;
     }
 
     getCurrentFormattedTime () {
@@ -50,28 +50,64 @@ class alarmClock {
         }
     }
 
-    start () {
-//что за звонок принимает эта функция ниже? Какой должен быть ее параметр?
-        // function checkClock () {
-        for (let alarm in this.alarmCollection) {
-            debugger;
-            if (this.getCurrentFormattedTime() === this.alarmCollection[alarm].time) {
-                eval(this.alarmCollection[alarm].callback);
-                console.log('this works');
-            } else {
-                console.log('this doesnt work');
-            }
+    checkClock(alarm) {
+        if ( alarm.time === this.getCurrentFormattedTime() ) {
+            alarm.callback();
         }
-        // }
-        // checkClock();
     }
 
+    start () {
+        if (this.timerId !== null) {
+            this.timerId = setInterval( () => this.alarmCollection.forEach( (alarm) => this.checkClock(alarm) ), 1000 )
+        }
+    }
+
+    stop() {
+        if (this.timerId !== null) {
+            clearInterval(this.timerId);
+            this.timerId = null;
+        }
+    }
+
+    printAlarms() {
+        if (this.alarmCollection.length === 0) {
+            console.log('there is no alarms!');
+        } else {
+            this.alarmCollection.forEach( (alarm) => console.log(`Alarm %${alarm.id} is set up for ${alarm.time}`) );
+        }
+    }
+
+    clearAlarms() {
+        this.stop();
+        this.alarmCollection = [];
+    }
 }
-// debugger;
-const clock = new alarmClock(1);
 
-clock.addClock('22:03', () => console.log('-'), 1);
-clock.addClock('21:57', () => console.log('12'), 2);
+function testCase() {
 
-console.log(clock.alarmCollection);
-console.log(clock.alarmCollection[0].callback);
+    console.log('start testcase');
+    const Alarm = new AlarmClock();
+
+    Alarm.addClock('21:08', () => console.log('Skoro spat'), 1);
+    Alarm.addClock('21:59', () => console.log(''), 1);
+
+    Alarm.addClock('21:09', () => {console.log(''); Alarm.removeClock(2)}, 2);
+    try {
+        Alarm.addClock('21:09', () => console.log(''));
+    } catch(e) {
+        console.log(e);
+    }
+
+    console.log(Alarm.alarmCollection);
+
+    Alarm.addClock('21:10', () => {
+        console.log('');
+        Alarm.clearAlarms();
+        Alarm.printAlarms();
+    }, 3);
+
+    Alarm.printAlarms();
+    Alarm.start();
+}
+
+testCase();
